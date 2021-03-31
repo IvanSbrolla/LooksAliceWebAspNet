@@ -1,0 +1,19 @@
+﻿@model LooksAliceWebAspNet.Models.ViewModels.ProdutosEmailViewModel
+@foreach (var item in Model.ProdutosDestaque)
+{
+    <div class="boxImagemDestaqueUni" onmouseover="MostrarBtnDestaque(@item.ProdutoId)" onmouseout="EsconderBtnDestaque(@item.ProdutoId)">
+        
+        <a href="@Url.Action("Roupa","Roupas",new { Id = item.ProdutoId, Descricao = item.Descricao})" class="linkImgProduto">
+            @{
+                var base64 = Convert.ToBase64String(item.Imagem);
+                var ImagemSrc = String.Format("data:image/gif;base64,{0}", base64);
+            }
+            <img src='@ImagemSrc' class="destaqueDefinicoesImagem" />
+        </a>
+        <div id="@item.ProdutoId" class="boxBtnImagemDestaque">
+            <a href="@Url.Action("Roupa","Roupas",new { Id = item.ProdutoId, Descricao = item.Descricao })" class="btnImagemDestaque"> DETALHES</a>
+        </div>
+
+    </div>
+}
+

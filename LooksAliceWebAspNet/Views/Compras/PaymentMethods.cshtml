@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "Payment Method - LooksAlice";
+}
+<div class="boxFundoPagamento">
+
+    <div class="boxPaymentsMethods" id="boxPaymentsMethods">
+        <div>
+            <div class="boxTituloGAcc">
+                <h2 class="textTituloPageAccount">MÉTODOS DE PAGAMENTO</h2>
+            </div>
+            <!--Titulo LooksAlice-->
+            <div class="boxTextLooksAliceAccountPage">
+                <h3 class="fonteLA LooksAliceProduto">LOOKS ALICE</h3>
+            </div>
+            <!--Divisor-->
+            <hr class="divisorLogin" />
+        </div>
+        <div class="PaymentsMethods">
+            <div id="CartaoDeCredito" class="cardPaymentsMethods">
+                <div class="boxCardPaymentsMethodsImage" onclick="selectPaymentMethod('CartaoDeCredito','DebitoOnline','imgCartaoDeCredito','imgDebitoOnline')">
+                    <i id="imgCartaoDeCredito" class="far fa-credit-card fa-10x"></i>
+                </div>
+                <div class="boxCardPaymentsMethodsDescricao" onclick="selectPaymentMethod('CartaoDeCredito','DebitoOnline','imgCartaoDeCredito','imgDebitoOnline')">
+                    <label class="CardPaymentsMethodsDescricao"><strong>CARTÃO DE CRÉDITO</strong></label>
+                </div>
+            </div>
+            <!--
+                <div id="DebitoOnline" class="cardPaymentsMethods">
+                <div class="boxCardPaymentsMethodsImage" onclick="selectPaymentMethod('DebitoOnline','CartaoDeCredito','imgDebitoOnline','imgCartaoDeCredito')">
+                    <i id="imgDebitoOnline" class="fas fa-credit-card fa-10x"></i>
+                </div>
+                <div class="boxCardPaymentsMethodsDescricao" onclick="selectPaymentMethod('DebitoOnline','CartaoDeCredito','imgDebitoOnline','imgCartaoDeCredito')">
+                    <label class="CardPaymentsMethodsDescricao"><strong>DÉBITO ONLINE</strong></label>
+                </div>
+            </div>
+               -->
+
+        </div>
+        <div class="boxButtonPaymentsMethods" id="boxButtonPaymentsMethods">
+            <button class="buttonPaymentsMethods" id="buttonConfirmar" onclick="setPaymentMethod()">Confirmar</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    var PaymentSelected;
+
+
+    function setPaymentMethod() {
+        $.ajax({
+            url: '@Url.Action("Payment", "Compras")',
+            data: { paymentMethod: PaymentSelected },
+            success: function (response) {
+
+                window.location.replace('/Compras/Payment?paymentMethod='+PaymentSelected);
+            },
+            error: function (response) {
+
+            }
+        })
+    }
+
+
+
+    function selectPaymentMethod(IdCardSelecionado, IdCard3, IdImgSelecionado,IdImg2) {
+        document.getElementById(IdCardSelecionado).style.border = '2px solid rgb(63, 207, 74)';
+        document.getElementById(IdImgSelecionado).style.color = 'rgb(63, 207, 74)';
+        /*document.getElementById(IdImg2).style.color = 'black';
+        document.getElementById(IdCard3).style.border = '2px solid rgba(0,0,0,0.5)';*/
+        PaymentSelected = IdCardSelecionado;
+        $('#buttonConfirmar').show();
+    }
+
+</script>

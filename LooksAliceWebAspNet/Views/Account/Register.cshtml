@@ -1,0 +1,74 @@
+﻿@model LooksAliceWebAspNet.Models.RegisterViewModel
+
+@{
+    ViewBag.Title = "Register - LooksAlice";
+}
+<div class="boxFundoGAcc">
+    
+    <div class="boxRegister">
+        <div class="boxTituloPageAccount">
+            <h2 class="textTituloPageAccount">REGISTRAR</h2>
+        </div>
+        <div class="boxTextLooksAliceAccountPage">
+            <h3 class="fonteLA LooksAliceProduto">LOOKS ALICE</h3>
+        </div>
+        <hr class="divisorLogin" />
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "BoxForms" }))
+        {
+            @Html.AntiForgeryToken();
+            <div class="boxFormUniNomeSobreNomeRegister">
+                <div class="boxNomeRegister">
+                    @Html.LabelFor(m => m.PrimeiroNome, new { @class = "labelForms" })
+                    @Html.TextBoxFor(m => m.PrimeiroNome, new { @class = "textBoxForms", @placeholder = "Insira seu Nome" })
+                    @Html.ValidationMessageFor(m => m.PrimeiroNome, "", new { @class = "text-danger" })
+                </div>
+                <div class="boxSobrenomeRegister">
+                    @Html.LabelFor(m => m.Sobrenome, new { @class = "labelForms" })
+                    @Html.TextBoxFor(m => m.Sobrenome, new { @class = "textBoxForms", @placeholder = "Insira seu Sobrenome" })
+                    @Html.ValidationMessageFor(m => m.Sobrenome, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="boxFormUni">
+                @Html.LabelFor(m => m.Email, new { @class = "labelForms" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "textBoxForms", @placeholder = "Insira seu E-mail" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+            <div class="boxFormUni">
+                @Html.LabelFor(m => m.Telefone, new { @class = "labelForms" })
+                @Html.TextBoxFor(m => m.Telefone, new { @class = "textBoxForms", @placeholder = "Insira seu E-mail", @id="Telefone", @maxlength = "11" })
+                @Html.ValidationMessageFor(m => m.Telefone, "", new { @class = "text-danger" })
+            </div>
+            <div class="boxFormUni">
+                @Html.LabelFor(m => m.Password, new { @class = "labelForms" })
+                <label style="font-size:15px; color:rgba(68, 67, 67, 0.80)">(A senha deve conter: letras maiúsculas, letras minúsculas, números e símbolos.)</label>
+                @Html.PasswordFor(m => m.Password, new { @class = "textBoxForms", @placeholder = "Insira uma senha" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+            </div>
+            <div class="boxFormUni">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "labelForms" })
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "textBoxForms", @placeholder = "Confirme sua senha" })
+                @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+            </div>
+            <div class="boxFormUni">
+                <div class="boxBtnConfirmAccount">
+                    <input type="submit" class="btnConfirmAccount" value="REGISTRAR" />
+                </div>
+            </div>
+            <div class="boxFormUni">
+                <div class="boxLinkRedirectAccount">
+                    <a class="textLinkRegistrar" href="@Url.Action("Login","Account")">Já possuí uma conta? Entre já!</a>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+
+<script>
+    $('#Telefone').keypress(function (event) {
+        return event.charCode >= 48 && event.charCode <= 57
+    });
+</script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,248 @@
+﻿@model LooksAliceWebAspNet.Models.ViewModels.EscolhaDeProdutoViewModel
+
+@{
+    Layout = "../Shared/_Layout.cshtml";
+
+}
+
+@foreach (var prod in Model.Produtos)
+{
+
+
+    <!--conteúdo-->
+    <!--Box Adicionar ao carrinho /fundo *só aparece ao clicar no botao de "Adicionar ao carrinho"-->
+    <div id="idBoxAdicionarAoCarrinhoFundo" class="boxAdicionarAoCarrinhoFundo">
+        <!--Box AddC fundo branco-->
+        <div id="boxAdicionarAoCarrinho" class="boxAdicionarAoCarrinho">
+            <!--Preço do produto-->
+
+            @if (prod.Promocao == true)
+            {
+                <div class="boxPrecoPromocaoAddC">
+                    <div class="boxPrecoAntigoAddC">
+                        <h5>De R$<s>@prod.Preco.ToString("F2")</s> por </h5>
+                    </div>
+                    <div class="boxPrecoAddC">
+                        <h3 class="textPrecoAddC">R$@prod.Preco_Promocao.ToString("F2")</h3>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="boxPrecoPromocaoAddC">
+                    <div class="boxPrecoAntigoAddC">
+
+                    </div>
+                    <div class="boxPrecoAddC">
+                        <h3 class="textPrecoAddC">R$@prod.Preco.ToString("F2")</h3>
+                    </div>
+                </div>
+            }
+
+            @using (Html.BeginForm("AddProduto", "Carrinhos", new { Descricao = prod.Descricao, Promocao = prod.Promocao, Preco_Promocao = prod.Preco_Promocao, Preco = prod.Preco }))
+            {
+                @Html.AntiForgeryToken()
+                <!--Titulo do produto-->
+                <div class="boxTituloProdutoAddC">
+                    <h2 class="tituloProdutoAddC">@prod.Descricao</h2>
+                </div>
+                <!--Tamanho do produto-->
+                <div class="boxDefinicoesProdAddC">
+                    <h4 class="textAddC">Tamanho:</h4>
+                    @Html.DropDownListFor(x => x.ProdutosTamanhos, new SelectList(Model.ProdutosTamanhos, "Tamanho", "Tamanho"), new { @class = "cboTamanhoAddC" })
+                </div>
+                <!--Cor do produto-->
+                <div class="boxDefinicoesProdAddC">
+                    <h4 class="textAddC">Cores:</h4>
+                    @Html.DropDownListFor(x => x.ProdutosCores, new SelectList(Model.ProdutosCores, "Cor.Cor_Nome", "Cor.Cor_Nome"), new { @class = "cboCoresAddC" })
+                </div>
+                <div>
+                    <div class="boxDefinicoesProdAddC">
+                        <h4 class="textAddC">Quantidade:</h4>
+                        @Html.TextBoxFor(x => x.Pedidos.Produto_Qntd, new { @class = "txtQuantidadeAddC", @type = "number", @id = "Produto_Qntd", @name = "Produto_Qntd" })
+                    </div>
+
+                    @Html.ValidationMessageFor(x => x.Pedidos.Produto_Qntd, "", new { @class = "text-danger txtValidationQndAddC" })
+                </div>
+                <!--divisor-->
+                <hr class="divisorDeInfos" />
+                <!--Botão de confirmar-->
+                <div class="boxBtnAddC">
+                    <button class="btn btn-default btn-success btnAddC" type="submit" id="AddProduto">
+                        Confirmar
+                        <i class="fas fa-check fa-1x"></i>
+                    </button>
+                </div>
+            }
+            <button class="btnVoltarAddC" onclick="EsconderAddC('idBoxAdicionarAoCarrinhoFundo')"> <i class="fas fa-arrow-left"></i> Voltar</button>
+
+        </div>
+    </div>
+    <!--Fundo da tela Produto-->
+    <div class="fundoBoxProduto">
+        <!--Caminhos parte superior-->
+        <div class="boxCaminho">
+            <a href="@Url.Action("Index", "Home")" class="iconHome"><i class="fas fa-home fa-2x"></i></a>
+            <i class="fas fa-chevron-right fa-1x setaCaminhosProduto"></i>
+            <a class="textCaminhos">@prod.Descricao</a>
+        </div>
+        <!--Titulo produto-->
+        <div class="boxTituloProduto">
+            <h2 class="tituloProduto">@prod.Descricao</h2>
+        </div>
+        <!--Front da tela de produtos-->
+        <div style="display:flex;align-content:center; justify-content:center;align-items:center;width:100%;">
+
+            <div class="boxProduto">
+                <!--Imagem produto-->
+                <div class="ImgPoduto" id="idBoxImg">
+                    @{
+                        var base64 = Convert.ToBase64String(prod.Imagem);
+                        var ImagemSrc = String.Format("data:image/gif;base64,{0}", base64);
+                    }
+                    <img id="IdImgProduto" src="@ImagemSrc" class="ImgConfig img-zoom" />
+                </div>
+                <!--Informações do produto-->
+                <div class="InfosProdutos">
+                    <div class="boxCodigoProduto">
+                        <p class="codigoProduto">Código: @prod.ProdutoId</p>
+                    </div>
+                    <!--text "Fabricado e vendido por"-->
+                    <div class="boxVendidoEEntreguePorLooksAlice">
+                        <p class="textVendidoEEntreguePor">Fabricado e vendido por </p>
+                        <p class="fonteLA LooksAliceProduto"> LooksAlice</p>
+                    </div>
+                    <!--preços-->
+                    @if (prod.Promocao == true)
+                    {
+                        <div class="boxPreco1">
+                            <P class="preco1">de R$<s>@prod.Preco.ToString("F2")</s></P>
+                        </div>
+                        <div class="boxPreco2" style="margin-bottom:20px">
+                            <p class="detalhePreco2">por R$</p>
+                            <p class="preco2"><strong>@prod.Preco_Promocao.ToString("F2")</strong></p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="boxPreco2" style="margin-bottom:20px">
+                            <p class="detalhePreco2"> R$</p>
+                            <p class="preco2"><strong>@prod.Preco.ToString("F2")</strong></p>
+                        </div>
+                    }
+                    <hr class="divisorDeInfos" style="margin-bottom:40px" />
+                    <!--Tamanhos-->
+                    <div class="boxTamanho">
+                        <p class="textTamanho">Tamanhos:</p>
+                        @foreach (var tamProduto in Model.ProdutosTamanhos)
+                        {
+                            <P class=" textUniTamanho">@tamProduto.Tamanho</P>
+                        }
+                    </div>
+                    <!--cores-->
+                    <div class="boxCores">
+                        <p class="textCores">Cores:</p>
+                        @foreach (var corProd in Model.ProdutosCores)
+                        {
+
+                            base64 = Convert.ToBase64String(corProd.Imagem);
+                            var ImagemSrca = String.Format("data:image/gif;base64,{0}", base64);
+
+                            <button style="
+                                    background-color: @corProd.Cor.CodRgba;
+                                    width: 20px;
+                                    height: 20px;
+                                    border-radius: 50%;
+                                    margin-left: 8px;
+                                    border: 1px solid black;
+                                    z-index: 1"
+                                    class="btnCoresProduto" onclick="document.getElementById('IdImgProduto').src = '@ImagemSrca'">
+                            </button>
+
+
+                        }
+
+                    </div>
+                    <hr class="divisorDeInfos" />
+
+                    <div id="boxCalcFrete" class="boxCalcFrete">
+                        <label class="labelCalcFrete">Calcular <strong>Frete</strong></label>
+                        <div class="boxCalcFreteForms">
+
+                            <input class="txtBoxCep" id="txtCep" placeholder="Insira seu CEP" />
+
+                            <button id="BtnCalcFrete" class="btn btn-primary btnCalcFrete">
+                                <i class="fas fa-shipping-fast fa-1x"></i>
+                            </button>
+                        </div>
+                        <div class="boxReturnCalcFrete" id="boxReturnCalcFrete">
+                            <div class="returnCalcFrete">
+                                <label> <i class="far fa-calendar-alt" style="color:dodgerblue"></i> Prazo: </label>
+                                <label id="txtReturnCalcFretePrazo"> </label>
+                            </div>
+                            <div class="returnCalcFrete">
+                                <label><i class="fas fa-dollar-sign" style="color:limegreen"></i> Preço: </label>
+                                <label id="txtReturnCalcFretePreco"> </label>
+                            </div>
+                        </div>
+                        <div id="boxErrorCalcFrete" class="boxErrorCalcFrete">
+                            <label id="errorCalcFrete" class="text-danger"> Erro ao calcular frete. Tente novamente!</label>
+                        </div>
+                    </div>
+
+                    <!--btn adicionar ao carrinho-->
+                    <div class="boxBtnAddCarrinho">
+                        <button class="btn btn-default btn-success btnAddCarrinho" onclick="MostrarAddC('idBoxAdicionarAoCarrinhoFundo')">
+                            <i class="fas fa-shopping-cart fa-1x"></i>
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!--Script CalcFrete-->
+    <script>
+        @RenderBody()
+
+        $(document).ready(function () {
+            $('#txtCep').inputmask("99999-999");
+        });
+
+        //Calc frete
+        $('#BtnCalcFrete').click(function(){
+            $.ajax({
+                url: '@Url.Action("CalcFrete","Roupas")',
+                data: {
+                    cep: $('#txtCep').val().replace("-","")
+                },
+                contentType: "application/json",
+                method: "GET",
+                success: function (response) {
+                    if (response.Result == "sucesso") {
+                        $('#boxReturnCalcFrete').show();
+                        $('#boxErrorCalcFrete').hide();
+                        $('#txtReturnCalcFretePrazo').text(" de " + response.PrazoMin + " a " + response.PrazoMax + " dias para ser entregue.")
+                        $('#txtReturnCalcFretePreco').text("R$ " + response.Preco.toLocaleString('pt-br', { minimumFractionDigits: 2 }));
+                    }
+                    else {
+                        $('#boxErrorCalcFrete').show();
+                        $('#boxReturnCalcFrete').hide();
+                    }
+                },
+                error: function (response) {
+                    $('#boxErrorCalcFrete').show();
+                    $('#boxReturnCalcFrete').hide();
+                }
+            })
+        })
+
+    </script>
+}

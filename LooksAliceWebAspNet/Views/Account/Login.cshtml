@@ -1,0 +1,52 @@
+﻿@using LooksAliceWebAspNet.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Login - LooksAlice";
+}
+
+<div class="boxFundoLogin">
+    <div class="boxLogin">
+        <div class="boxTituloPageAccount">
+            <h2 class="textTituloPageAccount">LOGIN</h2>
+        </div>
+        <div class="boxTextLooksAliceAccountPage">
+            <h3 class="fonteLA LooksAliceProduto">LOOKS ALICE</h3>
+        </div>
+        <hr class="divisorLogin" />
+        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "BoxForms" }))
+        {
+
+            @Html.AntiForgeryToken()
+            <div class="boxFormUni">
+                @Html.LabelFor(model => model.Email, new { @class = "labelForms" })
+                @Html.TextBoxFor(model => model.Email, new { @class = "textBoxForms", @placeholder = "Insira seu E-mail" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+            <div class="boxFormUni">
+                @Html.LabelFor(model => model.Password, new { @class = "labelForms" })
+                @Html.PasswordFor(model => model.Password, new { @class = "textBoxForms", @placeholder = "Insira sua Senha" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+            </div>
+            <div class="boxFormLikRegistrar">
+                <div class="boxCheckBoxLogin">
+                    @Html.CheckBoxFor(m => m.RememberMe, new { @class = "" })
+                    @Html.LabelFor(m => m.RememberMe, new { @class = "labelRemember" })
+                </div>
+            </div>
+            <div class="boxFormUni">
+                <div class="boxLinkRedirectAccount">
+                    <a class="textLinkRegistrar" href="@Url.Action("Register","Account")">Não possuí uma conta? Registre-se já!</a>
+                </div>
+            </div>
+            <div class="boxFormUni">
+                <div class="boxBtnConfirmAccount">
+                    <input type="submit" value="Login" class="btnConfirmAccount" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,1294 @@
+﻿
+@model LooksAliceWebAspNet.Models.ViewModels.PaymentViewModel
+@{
+    ViewBag.Title = "Checkout - LooksAlice";
+}
+<div class="boxSpinnerFundo" id="boxSpinnerFundo">
+    <div class="boxSpinner">
+
+    </div>
+</div>
+
+@if (ViewData["PaymentMethodSelected"].ToString() == "CartaoDeCredito")
+{
+
+    <div class="boxInfoUserPayment">
+        <div class="subBoxInfoUserPayment" id="boxFundoPayment">
+            <!--BOX DADOS DE ENTREGA-->
+            <div class="boxDadosDeEntregaPayment">
+                <!--Divisor-->
+                <hr class="divsorPayment" />
+                <!--Box Titulo Dados de entrega-->
+                <div class="boxTituloPayment">
+                    <p class="boxTituloPayment"><strong>DADOS DE ENTREGA</strong></p>
+                </div>
+
+                <div id="boxFormularioDadosDaEntrega">
+
+                    <!--box nome do destinatario-->
+                    <div class="boxInputsPayment">
+                        <div class="subBoxInputsPayment" id="boxtxtNomeDestinatario">
+                            <label>
+                                NOME DO DESTINATÁRIO*
+                            </label>
+                            <input class="txtNomeDestinatario configInputPayment" id="txtNomeDestinatario" maxlength="50" placeholder="nome do destinatário" />
+                        </div>
+                    </div>
+                    <!--Telefone-->
+                    <div class="boxInputsPayment">
+                        <div class="subBoxInputsPayment" id="boxtxtDdd">
+                            <label>
+                                DDD*
+                            </label>
+                            <input class="txtDdd configInputPayment" id="txtDdd" maxlength="2" placeholder="ddd" />
+                        </div>
+                        <div class="subBoxInputsPayment" id="boxtxtCelular">
+                            <label>
+                                CELULAR*
+                            </label>
+                            <input class="txtCelular configInputPayment" id="txtCelular" maxlength="15" placeholder="celular" />
+                        </div>
+                    </div>
+                    <!--box cep-->
+                    <div class="boxInputsPayment">
+                        <div class="subBoxInputsPayment" id="boxTxtCep">
+                            <label>
+                                CEP*
+                            </label>
+                            <div style="display:flex;flex-direction:row;align-items:baseline; align-content: baseline ;">
+                                <input class="configInputPayment txtCepPayment" id="txtCep" placeholder="cep" />
+                                <div style="display: none;" id="ErroCep">
+                                    <p class="text-danger" style="white-space:nowrap">*CEP não encontrado!*</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--box endereço-->
+                    <div class="boxInputsPayment">
+                        <div class="subBoxInputsPayment" id="boxTxtEndereco">
+                            <label>
+                                LOGRADOURO*
+                            </label>
+                            <input class="txtEndereco configInputPayment" id="txtLogradouro" maxlength="100" placeholder="logradouro" />
+                        </div>
+                    </div>
+                    <!--box numero residencial, complemento e bairro-->
+                    <div class="boxInputsPayment">
+                        <div class="subBoxInputsPayment">
+                            <label>
+                                NÚMERO*
+                            </label>
+                            <input class="configInputPayment txtNumeroResidencial" id="txtNumeroResidencial" maxlength="5" type="number" placeholder="número" />
+                        </div>
+                        <div class="subBoxInputsPayment inputAuxPayment">
+                            <label>
+                                BAIRRO*
+                            </label>
+                            <input class="configInputPayment txtBairro" id="txtBairro" maxlength="30" placeholder="bairro" />
+                        </div>
+                        <div class="subBoxInputsPayment inputAuxPayment">
+                            <label>
+                                COMPLEMENTO
+                            </label>
+                            <input class="configInputPayment txtComplemento" id="txtComplemento" maxlength="100" placeholder="complemento" />
+                        </div>
+                    </div>
+                    <!--box cidade, uf e ponto de referencia-->
+                    <div class="boxInputsPayment">
+                        <div class="subBoxInputsPayment">
+                            <div class="subBoxInputsPayment">
+                                <label>
+                                    CIDADE*
+                                </label>
+                                <input class="configInputPayment txtCidade" id="txtCidade" maxlength="35" placeholder="cidade" />
+                            </div>
+                        </div>
+                        <div class="subBoxInputsPayment inputAuxPayment">
+                            <label>
+                                UF*
+                            </label>
+                            <input class="configInputPayment txtUf" id="txtUf" maxlength="2" placeholder="uf" />
+                        </div>
+                        <div class="subBoxInputsPayment inputAuxPayment">
+                            <label>
+                                PONTO DE REFERÊNCIA
+                            </label>
+                            <input class="configInputPayment  txtPontoDeReferencia" maxlength="60" id="txtPontoDeReferencia" placeholder="ponto de referência" />
+                        </div>
+                    </div>
+
+                    <div class="boxButtonPayment">
+                        <button class="btnPayment" id="btnSalvarEnderecoDeEntrega">SALVAR</button>
+                        <div id="carregamentoDadosDeEntrega">
+                            <div class="boxSpinnerJs">
+
+                            </div>
+                        </div>
+                        <div style="display: none; align-content:baseline;align-items:baseline" id="ErroCalcFrete">
+                            <p class="text-danger" style="white-space:nowrap">*Erro ao calcular frete!*</p>
+                        </div>
+                        <div style="display: none;align-content:baseline;align-items:baseline" id="ErroFormsFrete">
+                            <p class="text-danger" style="white-space:nowrap">*Informe todos os campos obrigatórios!*</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <!--BOX DADOS DE COBRANÇA-->
+            <div class="boxDadosDeEntregaPayment">
+                <!--Divisor-->
+                <hr class="divsorPayment" />
+                <!--Box Titulo Dados de entrega-->
+                <div class="boxTituloPayment">
+                    <p class="boxTituloPayment"><strong>DADOS DE COBRANÇA</strong></p>
+                </div>
+
+                <div id="boxFormularioDadosDaCobranca">
+                    <!--Email-->
+                    <div class="boxInputsPayment">
+                        <div class="subBoxInputsPayment" id="boxtxtCelular">
+                            <label>
+                                EMAIL*
+                            </label>
+                            <input class="txtCelular configInputPayment" id="txtEmailCobranca" type="email" placeholder="email" />
+                        </div>
+                    </div>
+                    <!--Telefone-->
+                    <div class="boxInputsPayment">
+                        <div class="subBoxInputsPayment" id="boxtxtDdd">
+                            <label>
+                                DDD*
+                            </label>
+                            <input class="txtDdd configInputPayment" id="txtDddCobranca" maxlength="2" placeholder="ddd" />
+                        </div>
+                        <div class="subBoxInputsPayment" id="boxtxtCelular">
+                            <label>
+                                CELULAR*
+                            </label>
+                            <input class="txtCelular configInputPayment" id="txtCelularCobranca" placeholder="celular" />
+                        </div>
+                    </div>
+                    <!--data nascimento-->
+                    <div class="boxInputsPayment">
+                        <div class="subBoxInputsPayment" id="boxTxtCep">
+                            <label>
+                                DATA DE NASCIMENTO*
+                            </label>
+                            <input class="configInputPayment txtCepPayment" id="txtDataNascimentoCobranca" type="date" placeholder="data de nascimento" />
+                        </div>
+                    </div>
+                    <!--box cep-->
+                    <div class="boxInputsPayment">
+                        <div class="subBoxInputsPayment" id="boxTxtCep">
+                            <label>
+                                CEP*
+                            </label>
+                            <div style="display:flex;flex-direction:row;align-items:baseline; align-content: baseline ;">
+                                <input class="configInputPayment txtCepPayment" id="txtCepCobranca" placeholder="cep" />
+                                <div style="display: none;" id="ErroCepCobranca">
+                                    <p class="text-danger" style="white-space:nowrap">*CEP não encontrado!*</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--box endereço-->
+                    <div class="boxInputsPayment">
+                        <div class="subBoxInputsPayment" id="boxTxtEndereco">
+                            <label>
+                                LOGRADOURO*
+                            </label>
+                            <input class="txtEndereco configInputPayment" id="txtLogradouroCobranca" maxlength="100" placeholder="logradouro" />
+                        </div>
+                    </div>
+                    <!--box numero residencial, complemento e bairro-->
+                    <div class="boxInputsPayment">
+                        <div class="subBoxInputsPayment">
+                            <label>
+                                NÚMERO*
+                            </label>
+                            <input class="configInputPayment txtNumeroResidencial" id="txtNumeroResidencialCobranca" maxlength="5" type="number" placeholder="número" />
+                        </div>
+                        <div class="subBoxInputsPayment inputAuxPayment">
+                            <label>
+                                BAIRRO*
+                            </label>
+                            <input class="configInputPayment txtBairro" id="txtBairroCobranca" maxlength="30" placeholder="bairro" />
+                        </div>
+                        <div class="subBoxInputsPayment inputAuxPayment">
+                            <label>
+                                COMPLEMENTO
+                            </label>
+                            <input class="configInputPayment txtComplemento" id="txtComplementCobrancao" maxlength="100" placeholder="complemento" />
+                        </div>
+                    </div>
+                    <!--box cidade, uf e ponto de referencia-->
+                    <div class="boxInputsPayment">
+                        <div class="subBoxInputsPayment">
+                            <div class="subBoxInputsPayment">
+                                <label>
+                                    CIDADE*
+                                </label>
+                                <input class="configInputPayment txtCidade" id="txtCidadeCobranca" maxlength="35" placeholder="cidade" />
+                            </div>
+                        </div>
+                        <div class="subBoxInputsPayment inputAuxPayment">
+                            <label>
+                                UF*
+                            </label>
+                            <input class="configInputPayment txtUf" id="txtUfCobranca" maxlength="2" placeholder="uf" />
+                        </div>
+                    </div>
+
+                    <div class="boxButtonPayment">
+                        <button class="btnPayment" id="btnSalvarEnderecoDeCobranca">SALVAR</button>
+                        <div id="carregamentoDadosDeCobranca">
+                            <div class="boxSpinnerJs">
+
+                            </div>
+                        </div>
+                        <div style="display: none; align-content:baseline;align-items:baseline" id="ErroCalcFreteCobranca">
+                            <p class="text-danger" style="white-space:nowrap">*Erro ao calcular frete!*</p>
+                        </div>
+                        <div style="display: none;align-content:baseline;align-items:baseline" id="ErroFormsFreteCobranca">
+                            <p class="text-danger" style="white-space:nowrap">*Informe todos os campos obrigatórios!*</p>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <!--BOX DADOS DO CARTAO-->
+            <div class="boxCardPayment">
+                <!--Divisor-->
+                <hr class="divsorPayment" />
+                <!--Box Titulo Dados do Cartão-->
+                <div class="boxTituloPayment">
+                    <p class="boxTituloPayment"><strong>DADOS DO CARTÃO</strong></p>
+                </div>
+                <div id="FormularioDadosDoCartao">
+
+                    <div class="boxInputsPayment">
+                        <div class="subBoxInputsPayment">
+                            <label>
+                                NÚMERO DO CARTÃO
+                            </label>
+                            <div style="display:flex;flex-direction:row">
+
+                                @Html.TextBoxFor(x => x.Card.NumCard, new { @Class = "configInputPayment txtNumeroDoCartao", @maxlength = "20", @placeholder = "numero do cartão", @type = "number", @id = "numCartao" })
+                                @Html.ValidationMessageFor(x => x.Card.NumCard, null, new { @class = "text-danger" })
+                                <div id="cardBand" class="boxBrandCard">
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="boxInputsPayment">
+                        <div class="subBoxInputsPayment">
+                            <label>
+                                NOME NO CARTÃO
+                            </label>
+
+                            @Html.TextBoxFor(x => x.Card.NomeNoCartao, new { @class = "configInputPayment txtNomeNoCartao", @maxlength = "50", @placeholder = "nome no cartão", @id = "txtNomeCartao" })
+                            @Html.ValidationMessageFor(x => x.Card.NomeNoCartao, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="boxInputsPayment">
+                        <div class="subBoxInputsPayment">
+                            <label>
+                                CPF DO TITULAR DO CARTÃO
+                            </label>
+                            @Html.TextBoxFor(x => x.Card.CPF, new { @class = "configInputPayment txtCpfDoTitular", @id = "txtCpfTitular", @placeholder = "CPF do titular do cartão" })
+                            @Html.ValidationMessageFor(x => x.Card.CPF, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div id="boxMesEAnoPayment">
+                        <div class="subBoxCartaoPayment">
+                            <label>
+                                MÊS DE VALIDADE
+                            </label>
+                            @Html.DropDownListFor(x => x.Anos, new SelectList(Model.Anos, "AnoNum", "AnoNum"), new { @class = "configInputPayment selectMesDeValidade", @id = "selectMesValidade" })
+
+                        </div>
+                        <div class="subBoxCartaoPayment ">
+                            <label>
+                                ANO
+                            </label>
+                            @Html.DropDownListFor(x => x.Meses, new SelectList(Model.Meses, "MesNum", "MesNum"), new { @class = "configInputPayment  selectAno", @id = "selectAnoValidade" })
+                        </div>
+                    </div>
+                    <div id="boxCvvEParcelamentoPayment">
+                        <div class="subBoxCartaoPayment">
+                            <label>
+                                CVV
+                            </label>
+                            @Html.TextBoxFor(x => x.Card.Cvv, new { @class = "configInputPayment txtCvv", @maxlength = "3", @placeholder = "cvv", @id = "txtCvv" })
+                            @Html.ValidationMessageFor(x => x.Card.Cvv, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="subBoxCartaoPayment ">
+                            <label>
+                                PARCELAMENTO
+                            </label>
+                            <select class="configInputPayment selectParcelamento" id="selectParcelamento" placeholder="parcelas">
+                                <option value=""> Selecione</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="boxButtonPayment">
+                        <button class="btnPayment" id="btnVerificarDadosCartao">Verificar Cartão</button>
+                        <div id="carregamentoCartao">
+                            <div class="boxSpinnerJs">
+
+                            </div>
+                        </div>
+                        <div style="display: none; align-content:baseline;align-items:baseline" id="ErroVerifCartao">
+                            <p class="text-danger" style="white-space:nowrap">*Erro ao verificar dados do cartão!*</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <hr class="divsorPayment" />
+            </div>
+            <!--BOX RESUMO-->
+            <div class="boxCardPayment">
+                <div class="boxTituloPayment">
+                    <p class="boxTituloPayment"><strong>RESUMO</strong></p>
+                </div>
+                <div id="CartaoVerificado" class="boxCartaoVerificado">
+                    <div class="boxDefinicoesPagamento">
+                        <div class="boxFigCartao">
+                            <!--fig cartao-->
+                            <div class="figCartao">
+                                <!--Titulo Loja-->
+                                <div class="boxTituloDaLojaFigCartao">
+                                    <p class="txtTituloDaLojaFigCartao">LooksAlice</p>
+                                </div>
+                                <!--Numero do cartao-->
+                                <div class="boxNumeroDoCartaoFigCartao">
+                                    <p class="txtNumeroDoCartaoFigCartao" id="txtNumeroFigCartao"> xxxx  xxxx  xxxx  xxxx </p>
+                                </div>
+                                <!--Infos do Cartao-->
+                                <div class="boxInfosDoCartaoEBandeiraFigCartao">
+                                    <!--box infos-->
+                                    <div class="boxInfosDoCartaoFigCartao">
+                                        <!--Nome-->
+                                        <div class="boxNomeFigCartao">
+                                            <p class="txtNomeFigCartao" id="txtNomeFigCartao">-</p>
+                                        </div>
+                                        <!--Cvv, Ano e Mes-->
+                                        <div class="boxCvvMesAnoFigCartao">
+                                            <!--Mes-->
+                                            <div class="subBoxCvvMesAnoFigCartao">
+                                                <p class="txtInfosFigCartao">Mes:</p>
+                                                <p class="txtInfosResultFigCartao" id="txtMesFigCartao">-</p>
+                                            </div>
+                                            <!--Ano-->
+                                            <div class="subBoxCvvMesAnoFigCartao">
+                                                <p class="txtInfosFigCartao">Ano:</p>
+                                                <p class="txtInfosResultFigCartao" id="txtAnoFigCartao">-</p>
+                                            </div>
+                                            <!--Cvv-->
+                                            <div class="subBoxCvvMesAnoFigCartao">
+                                                <p class="txtInfosFigCartao">Cvv:</p>
+                                                <p class="txtInfosResultFigCartao" id="txtCvvFigCartao">-</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--box Bandeira-->
+                                    <div id="boxBandeira" class="boxBandeiraFigCartao">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Definições-->
+                        <div class="boxDefinicoes">
+                            <hr class="divisorDeInfos" id="divisorAuxPayment" />
+                            <div class="subBoxDefinicoes">
+                                <p class="txtDefinicoes" id="txtEnderecoEntregaDefinicoes"></p>
+                            </div>
+                            <hr class="divisorDeInfos" />
+                            <div class="subBoxDefinicoes">
+                                <p class="txtDefinicoes" id="txtEnderecoCobrancaDefinicoes"></p>
+                            </div>
+                            <div class="subBoxDefinicoes">
+                                <p class="txtDefinicoes"><strong>Email:</strong></p>
+                                <p id="txtEmailDefinicoes">-</p>
+                            </div>
+                            <div class="subBoxDefinicoes">
+                                <p class="txtDefinicoes"><strong>CPF:</strong></p>
+                                <p id="txtCpfDefinicoes">-</p>
+                            </div>
+                            <div class="subBoxDefinicoes">
+                                <p class="txtDefinicoes"><strong>Parcelas:</strong> </p>
+                                <p id="txtParcelasDefinicoes">-</p>
+                            </div>
+                            <button class="btnPayment" style="width:300px" id="btnAlterarInfos">Alterar informações</button>
+                        </div>
+                    </div>
+                    <div class="boxTermosDeContrato">
+                        <input type="checkbox" id="chbTermos" />
+                        <label id="txtTermos" style="margin-left: 10px">Afirmo que li e concordo com os <a href="@Url.Action("Termos","Compras")">Termos de Contrato.</a></label>
+                    </div>
+                    <div class="boxButtonPayment">
+                        <div id="btnConfirmarCompra">
+                            <button class="btnConfirmarCompra" id="btnConfirmarCompra"> FINALIZAR COMPRA</button>
+                        </div>
+                        <div id="carregamentoCartao">
+                            <div class="boxSpinnerJs">
+
+                            </div>
+                        </div>
+                        <div style="display: none; align-content:baseline;align-items:baseline" id="ErroVerifCartao">
+                            <p class="text-danger" style="white-space:nowrap">*Erro ao verificar dados do cartão!*</p>
+                        </div>
+
+                    </div>
+                </div>
+                <hr class="divsorPayment" />
+            </div>
+
+        </div>
+
+    </div>
+
+}
+else
+{
+    <p>Debito Online</p>
+}
+<!--Lista de Pedidos-->
+<div class="boxInfosPurchasePayment">
+    @foreach (var item in Model.Pedidos)
+    {
+        <div class="boxInfosProdutoPayment">
+            <label class="txtInfoProduto">Produto: </label>
+            <label class="txtInfoProdutoResult" id="ProdutoResult"><strong>@item.Produto.Descricao</strong></label>
+        </div>
+        <div class="boxInfosProdutoPayment">
+            <div class="subBoxInfosProdutoPayment">
+                <label class="txtSubIndosProdutoResult"> Quantidade: <strong>@item.Produto_Qntd</strong></label>
+            </div>
+            <div class="subBoxInfosProdutoPayment" id="subBoxInfosProdutoPayment">
+                <label class="txtSubIndosProdutoResult"> Preço: <strong>R$@item.Preco.ToString("F2")</strong></label>
+            </div>
+        </div>
+        <hr class="divisorDeInfos" />
+    }
+    <div id="boxFretePayment">
+        <div class="boxInfosProdutoPayment">
+            <label class="txtInfoProduto">Produto: </label>
+            <label class="txtInfoProdutoResult" id="ProdutoResult"><strong>Frete</strong></label>
+        </div>
+        <div class="boxInfosProdutoPayment" id="boxFreteInfosPayment">
+            <div class="subBoxInfosProdutoPayment">
+                <label class="txtSubIndosProdutoResult"> Local: </label>
+                <label class="" id="FreteLocalResult"></label>
+            </div>
+            <div class="subBoxInfosProdutoPayment">
+                <label class="txtSubIndosProdutoResult"> Preço: <strong></strong></label>
+                <label class="" id="FretePrecoResult"></label>
+            </div>
+        </div>
+        <hr class="divisorDeInfos" />
+    </div>
+
+    <hr class="divisorPagamento" />
+    <div class="boxPaiProdutoTotal">
+        <div class="boxTotalProduto">
+            <label id="txtTotalProduto"><strong>TOTAL:</strong></label>
+
+        </div>
+        <div class="boxTotalProdutoResult">
+            <label id="tipoDeMoeda">R$</label>
+            <label id="precoTotal"><strong>@Model.Total.ToString("F2")</strong></label>
+        </div>
+    </div>
+</div>
+
+<script>
+    //Variaveis
+
+    var SomaTotalSemFrete;
+    var SomaTotal;
+    var ValFrete
+    var SenderHash;
+    var cardBand;
+    var cardToken;
+    var numCartao;
+    var cvvCartao;
+    var nomeCartao;
+    var mesCartao;
+    var anoCartao;
+    var cpfCartao;
+    var parcelamentoCartao;
+    var nomeDestinatario;
+    var telefone;
+    var ddd
+    var cep;
+    var logradouro;
+    var numeroResidencial;
+    var bairro;
+    var complemento;
+    var cidade;
+    var uf;
+    var pontoDeReferencia;
+    var emailCobranca;
+    var dddCobranca;
+    var telefoneCobranca;
+    var cepCobranca;
+    var logradouroCobranca;
+    var numeroResidencialCobranca;
+    var bairroCobranca;
+    var dataNascimentoCobranca;
+    var complementoCobranca;
+    var cidadeCobranca;
+    var ufCobranca;
+    var precoFrete;
+    var installmentLimit;
+    var qntdParcela;
+    var valorParcela;
+
+
+    $(this).on('load',function () {
+        gerarSessao();
+        GetSomaSemFrete()
+    });
+
+
+    //Verificar Cartao
+    $('#btnVerificarDadosCartao').on('click', function () {
+        $('#carregamentoCartao').show();
+        $('#ErroVerifCartao').hide();
+        //Verificações de inputs
+        if ($('#numCartao').val() == null || $('#numCartao').val() == "" || $('#numCartao').val().length < 12) {
+            $('#carregamentoCartao').hide();
+            $('#ErroVerifCartao').show();
+            $('#ErroVerifCartao').text("Insira um Número de Cartão valido!")
+        }
+        else {
+            $('#ErroVerifCartao').hide();
+            if ($('#txtNomeCartao').val() == null || $('#txtNomeCartao').val() == "" || $('#txtNomeCartao').val().length < 3 ) {
+                $('#carregamentoCartao').hide();
+                $('#ErroVerifCartao').show();
+                $('#ErroVerifCartao').text("Insira um Nome valido!")
+            }
+            else {
+                $('#ErroVerifCartao').hide();
+                if ($('#txtCpfTitular').val() == null || $('#txtCpfTitular').val() == "" || $('#txtCpfTitular').val().length < 11 || $('#txtCpfTitular').val().indexOf("_") != -1) {
+                    $('#carregamentoCartao').hide();
+                    $('#ErroVerifCartao').show();
+                    $('#ErroVerifCartao').text("Insira um CPF valido!")
+                }
+                else {
+                    $('#ErroVerifCartao').hide();
+                    if ($('#txtCvv').val() == null || $('#txtCvv').val() == "" || $('#txtCvv').val().length < 3) {
+                        $('#carregamentoCartao').hide();
+                        $('#ErroVerifCartao').show();
+                        $('#ErroVerifCartao').text("Insira um Cvv valido!")
+                    }
+                    else {
+                        $('#ErroVerifCartao').hide();
+                        //Chamada do PagSeguro
+                        PagSeguroDirectPayment.createCardToken({
+                            cardNumber: $('#numCartao').val(), // Número do cartão de crédito
+                            brand: cardBand, // Bandeira do cartão
+                            cvv: $('#txtCvv').val(), // CVV do cartão
+                            expirationMonth: $('#selectMesValidade option:selected').val(), // Mês da expiração do cartão
+                            expirationYear: $('#selectAnoValidade option:selected').val(), // Ano da expiração do cartão, é necessário os 4 dígitos.
+                            success: function (response) {
+                                $('#ErroVerifCartao').hide();
+                                $('#carregamentoCartao').hide();
+                                $('#boxFormularioDadosDaEntrega').hide();
+                                $('#FormularioDadosDoCartao').hide();
+                                $('#boxFormularioDadosDaCobranca').hide();
+                                $('#CartaoVerificado').show();
+                                //set variaveis
+                                cardToken = response.card.token;
+                                numCartao = $('#numCartao').val();
+                                cvvCartao = $('#txtCvv').val();
+                                nomeCartao = $('#txtNomeCartao').val();
+                                anoCartao = $('#selectAnoValidade option:selected').val();
+                                mesCartao = $('#selectMesValidade option:selected').val();
+                                cpfCartao = $('#txtCpfTitular').val();
+                                parcelamentoCartao = $('#selectParcelamento option:selected').val();
+                                //config textos e imagens do FigCartao
+                                $('#txtNumeroFigCartao').text(numCartao.substring(0, 4) + " " + numCartao.substring(4, 8) + " " + numCartao.substring(8, 12) + " " + numCartao.substring(12, 16) + " " + numCartao.substring(16, 20));
+                                $('#txtNomeFigCartao').text(nomeCartao);
+                                if (mesCartao.length == 1) { $('#txtMesFigCartao').text("0" + mesCartao); }
+                                else { $('#txtMesFigCartao').text(mesCartao); }
+                                $('#txtAnoFigCartao').text(anoCartao);
+                                $('#txtCvvFigCartao').text(cvvCartao);
+                                $('#boxBandeira').append("<img src='../Content/Images/CardBand/" + cardBand + ".png' />");
+                                $('#txtCpfDefinicoes').text(cpfCartao);
+                                $('#txtParcelasDefinicoes').text(qntdParcela+"X de R$"+ valorParcela.replace('.',','));
+                                $('#txtEmailDefinicoes').text(emailCobranca);
+                                $('#txtEnderecoCobrancaDefinicoes').append("<strong>Endereço de Cobrança: </strong >" + logradouroCobranca + ", " +
+                                    numeroResidencialCobranca + " - " +
+                                    bairroCobranca + " - " +
+                                    cidadeCobranca + " , " +
+                                    ufCobranca.toUpperCase());
+                                $('#txtEnderecoEntregaDefinicoes').append("<strong>Endereço de Entrega: </strong >" + logradouro + ", " +
+                                    numeroResidencial + " - " +
+                                    bairro + " - " +
+                                    cidade + " , " +
+                                    uf.toUpperCase());
+                            },
+                            error: function (response) {
+                                $('#carregamentoCartao').hide();
+                                $('#ErroVerifCartao').show();
+                                $('#ErroVerifCartao').text("Erro ao validar o Cartão");
+                                console.log(response)
+                            }
+                        });
+                    }
+                }
+            }
+        }
+
+    })
+
+    //Consultar Cep
+    $('#txtCep').on('blur', function () {
+        var numCep = $(this).val();
+            $.ajax({
+                url: '@Url.Action("ConsultarCep", "Compras")',
+                method: 'GET',
+                contentType: "application/json",
+                data: {
+                    Cep: $('#txtCep').val().replace("-","")
+                },
+                success: function (response) {
+                    if (response.Status == "Sucesso") {
+                        $('#txtLogradouro').val(response.Logradouro);
+                        $('#txtBairro').val(response.Bairro);
+                        $('#txtUf').val(response.Uf);
+                        $('#txtCidade').val(response.Localidade);
+                        $('#ErroCep').hide();
+                    }
+                    else {
+
+                    }
+                },
+                error: function (response) {
+                    $('#ErroCep').show();
+                }
+            })
+
+    })
+
+     //Consultar Cep Cobranca
+    $('#txtCepCobranca').on('blur', function () {
+        var numCep = $(this).val();
+            $.ajax({
+                url: '@Url.Action("ConsultarCep", "Compras")',
+                method: 'GET',
+                contentType: "application/json",
+                data: {
+                    Cep: $('#txtCepCobranca').val().replace("-","")
+                },
+                success: function (response) {
+                    if (response.Status == "Sucesso") {
+                        $('#txtLogradouroCobranca').val(response.Logradouro);
+                        $('#txtBairroCobranca').val(response.Bairro);
+                        $('#txtUfCobranca').val(response.Uf);
+                        $('#txtCidadeCobranca').val(response.Localidade);
+                        $('#ErroCepCobranca').hide();
+                    }
+
+                },
+                error: function (response) {
+                    $('#ErroCepCobranca').show();
+                }
+            })
+
+    })
+
+    //Set SenderHash
+    $('#txtNomeDestinatario').on('blur', function () {
+        if ($('#txtNomeDestinatario').val().length >= 3 && SenderHash == null) {
+            PagSeguroDirectPayment.onSenderHashReady(function (response) {
+                if (response.status == 'error') {
+                    return false;
+                }
+                SenderHash = response.senderHash; //Hash estará disponível nesta variável.
+            });
+        }
+    })
+
+    //Set Endereco de entrega
+    $('#btnSalvarEnderecoDeEntrega').on('click', function () {
+        $('#carregamentoDadosDeEntrega').show();
+        EsconderFormCobranca();
+        LimparFormCobranca();
+        EsconderFormCartao();
+        LimparFormCartao();
+        EsconderFigCartao();
+        $.ajax({
+            url: '@Url.Action("VerificarEndereco", "Compras")',
+            contentType: 'application/json',
+            data: {
+                NomeDestinatario: $('#txtNomeDestinatario').val(),
+                Cep: $('#txtCep').val().toString(),
+                Endereco: $('#txtLogradouro').val(),
+                NumeroResidencial: $('#txtNumeroResidencial').val(),
+                Bairro: $('#txtBairro').val(),
+                Cidade: $('#txtCidade').val(),
+                Uf: $('#txtUf').val(),
+                telefone: $('#txtCelular').val(),
+                ddd: $('#txtDdd').val()
+            },
+            method:'GET',
+            success: function (response) {
+
+                $('#ErroFormsFrete').hide();
+                if (response.Result == "sucesso") {
+                    $('#ErroCalcFrete').hide();
+                    $.ajax({
+                        url: '@Url.Action("CalcFrete","Compras")',
+                        method: "GET",
+                        contentType: 'application/json',
+                        data: {
+                            CepDestino: $('#txtCep').val()
+                        },
+                        success: function (response) {
+                            $('#carregamentoDadosDeEntrega').hide();
+                            $('#boxFormularioDadosDaCobranca').show();
+                            $('#FretePrecoResult').empty();
+                            $('#FreteLocalResult').empty();
+                            //set variaveis
+                            precoFrete = response.Preco;
+                            ValFrete = precoFrete.replace(',', '.');
+                            $.ajax({
+                                url: "@Url.Action("SumTotal","Compras")",
+                                contentType: 'application/json',
+                                data: {
+                                    PrecoDaCompraSemFrete: SomaTotalSemFrete,
+                                    PrecoFrete: precoFrete
+                                },
+                                dataType: 'json',
+                                method: 'GET',
+                                success: function (response) {
+                                    SomaTotal = response.Result;
+                                    $('#precoTotal').empty();
+                                    $('#precoTotal').append("<strong>" + SomaTotal + "</strong>");
+                                },
+                                error: function (response) {
+                                    alert(response)
+                                }
+                            });
+                            nomeDestinatario = $('#txtNomeDestinatario').val();
+                            cep = $('#txtCep').val();
+                            ddd = $('#txtDdd').val();
+                            telefone = $("#txtCelular").val();
+                            logradouro = $('#txtLogradouro').val();
+                            numeroResidencial = $('#txtNumeroResidencial').val();
+                            bairro = $('#txtBairro').val();
+                            complemento = $('#txtComplemento').val();
+                            cidade = $('#txtCidade').val();
+                            uf = $('#txtUf').val();
+                            pontoDeReferencia = $('#txtPontoDeReferencia').val();
+                            $('#FreteLocalResult').append("<strong>" + logradouro + ", " +
+                                numeroResidencial + " - " +
+                                bairro + " - " +
+                                cidade + " , " +
+                                uf.toUpperCase() + "</strong>");
+                            $('#FretePrecoResult').append("<strong>R$" + precoFrete + "</strong>");
+                            $('#boxFretePayment').show();
+                        },
+                        error: function (response) {
+                            $('#ErroCalcFrete').show();
+                        }
+                    })
+                }
+                else {
+                    $('#carregamentoDadosDeEntrega').hide();
+                    $('#ErroFormsFrete').show();
+                }
+            },
+            error: function (response) {
+                $('#ErroFormsFrete').show();
+            }
+        })
+    })
+
+    //set var qntdParcela e valorParcela
+    $('#selectParcelamento').change(function () {
+        qntdParcela = $('#selectParcelamento').find(':selected').attr('value');
+        valorParcela = parseFloat($('#selectParcelamento').find(':selected').attr('data-parcelas')).toFixed(2);
+    });
+
+    //alterar infos
+    $('#btnAlterarInfos').click(function () {
+        LimparFormCobranca();
+        LimparFormCartao();
+        LimparFormEntrega();
+        EsconderFigCartao();
+        $('#boxFormularioDadosDaEntrega').show();
+        $('#boxBandeira').empty();
+    })
+
+     //Set Endereco de Cobranca
+    $('#btnSalvarEnderecoDeCobranca').on('click', function () {
+        $('#carregamentoDadosDeCobranca').show();
+        EsconderFormCartao();
+        LimparFormCartao();
+        EsconderFigCartao();
+        $.ajax({
+            url: '@Url.Action("VerificarEnderecoCobranca", "Compras")',
+            contentType: 'application/json',
+            data: {
+                Cep: $('#txtCepCobranca').val().toString(),
+                Endereco: $('#txtLogradouroCobranca').val(),
+                NumeroResidencial: $('#txtNumeroResidencialCobranca').val(),
+                Bairro: $('#txtBairroCobranca').val(),
+                Cidade: $('#txtCidadeCobranca').val(),
+                Uf: $('#txtUfCobranca').val(),
+                Email: $('#txtEmailCobranca').val(),
+                Ddd: $('#txtDddCobranca').val(),
+                Telefone: $('#txtCelularCobranca').val(),
+                DataNascimento: $('#txtDataNascimentoCobranca').val()
+            },
+            method:'GET',
+            success: function (response) {
+                $('#ErroFormsFreteCobranca').hide();
+                if (response.Result == "sucesso") {
+                    $('#ErroFormsFreteCobranca').hide();
+                    $('#carregamentoDadosDeCobranca').hide();
+                    $('#FormularioDadosDoCartao').show();
+                    cepCobranca = $('#txtCep').val();
+                    logradouroCobranca = $('#txtLogradouro').val();
+                    numeroResidencialCobranca = $('#txtNumeroResidencial').val();
+                    bairroCobranca = $('#txtBairro').val();
+                    complementoCobranca = $('#txtComplemento').val();
+                    cidadeCobranca= $('#txtCidade').val();
+                    ufCobranca = $('#txtUf').val();
+                    dddCobranca = $('#txtDddCobranca').val();
+                    telefoneCobranca = $('#txtCelularCobranca').val();
+                    emailCobranca = $('#txtEmailCobranca').val();
+                    dataNascimentoCobranca = response.dataNascimento;
+                }
+                else {
+                    $('#carregamentoDadosDeCobranca').hide();
+                    $('#ErroFormsFreteCobranca').show();
+                }
+            },
+            error: function (response) {
+                $('#ErroFormsFreteCobranca').show();
+            }
+        })
+    })
+
+    //Checkout
+    $('#btnConfirmarCompra').click(function () {
+        if ($("#chbTermos").is(":checked") == true) {
+            $.ajax({
+                url: '@Url.Action("Checkout","Compras")',
+                data: {
+                    senderName: nomeDestinatario,
+                    senderEmail: emailCobranca,
+                    senderHash: SenderHash,
+                    phoneNumber: telefone.replace("-", ""),
+                    phoneDDD: ddd,
+                    documentCpfNumber: cpfCartao.replace(".", "").replace(".", "").replace("-", ""),
+                    fretePreco: ValFrete,
+                    ruaEndereco: logradouro,
+                    numeroEndereco: numeroResidencial,
+                    complementoEndereco: complemento,
+                    distritoEndereco: cidade,
+                    cidadeEndereco: cidade,
+                    ufEndereco: uf,
+                    cepEndereco: cep.replace("-", ""),
+                    tokenCard: cardToken,
+                    qntdParcela: qntdParcela,
+                    valorParcela: valorParcela,
+                    maxInstallmentNoInterest: 2,
+                    nomeCartao: nomeCartao,
+                    cpfCartao: cpfCartao.replace(".", "").replace(".", "").replace("-", ""),
+                    dataNascimentoCartao: dataNascimentoCobranca,
+                    phoneCartao: telefoneCobranca.replace("-", ""),
+                    dddPhoneCartao: dddCobranca,
+                    ruaCobranca: logradouroCobranca,
+                    numeroCobranca: numeroResidencialCobranca,
+                    complementoCobranca: complementoCobranca,
+                    distritoCobranca: cidadeCobranca,
+                    cidadeCobranca: cidadeCobranca,
+                    estadoCobranca: ufCobranca,
+                    cepCobranca: cepCobranca.replace("-", ""),
+                    precoTotal: SomaTotal
+                },
+                method: "POST",
+                success: function (response) {
+                    window.location.replace('/Compras/PaymentSuccess');
+                },
+                error: function (response) {
+                    console.log(response)
+                }
+            })
+        }
+        else {
+            document.getElementById('txtTermos').style.color = 'red';
+        }
+    });
+
+    //marcar chbTermos
+    $('#chbTermos').click(function () {
+        if ($("#chbTermos").is(":checked") == true) {
+            document.getElementById('txtTermos').style.color = 'black';
+        }
+    })
+
+    //Mostrar e setar bandeira do cartão
+    $('#numCartao').on('keyup', function () {
+        var numCartao = $(this).val();
+        var qntNumero = numCartao.length;
+
+        if (qntNumero < 6) { $('#cardBand').empty() }
+        if (qntNumero == 6) {
+            $('#cardBand').empty()
+            PagSeguroDirectPayment.getBrand({
+                cardBin: numCartao,
+                success: function (response) {
+                    cardBand = response.brand.name;
+                    $('#cardBand').append("<img src='https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/" + cardBand + ".png' />");
+                    $('#selectParcelamento').empty();
+                    $('#selectParcelamento').append('<option value="">Selecione</option>')
+                    recupParcelas(cardBand);
+                },
+                error: function (response) {
+                    $('#cardBand').empty();
+                    $('#cardBand').append("Cartão inválido!")
+                },
+                complete: function (response) {
+                    //tratamento comum para todas chamadas
+                }
+            });
+        };
+    })
+
+    //retornar valor da compra sem o preço do frete
+    function GetSomaSemFrete() {
+        $.ajax({
+            url: '@Url.Action("GetSomaSemFrete", "Compras")',
+            contentType: 'application/JSON; charset=utf-8',
+            method:'POST',
+            dataType: 'json',
+            success: function (response) {
+                SomaTotalSemFrete = response.Result;
+            },
+            error: function (response) {
+
+            }
+        })
+    }
+
+    /// Gera sessao da compra
+    function gerarSessao() {
+        $.ajax({
+            url:'@Url.Action("GerarSessao", "Compras")',
+            method: 'POST',
+            contentType: 'application/JSON',
+            datatype: 'json',
+            success: function (response) {
+                if (response.Result == "sucesso") {
+                    PagSeguroDirectPayment.setSessionId(response.Id);
+                    $('#boxSpinnerFundo').hide();
+                    $('#boxFundoPayment').show();
+                }
+                else {
+                    window.location.replace('/Compras/ErrorSession');
+                }
+            },
+            error: function (response) {
+                if (response.Result == "erro") {
+                    window.location.replace('/Compras/ErrorSession');
+                }
+            }
+        })
+    }
+
+    ///Mask
+    $(document).ready(function () {
+        $('#txtCep').inputmask("99999-999");
+        $('#txtCepCobranca').inputmask("99999-999");
+        $('#txtCpfTitular').inputmask("999.999.999-99");
+        $('#txtCelularCobranca').inputmask("99999-9999");
+        $('#txtCelular').inputmask("99999-9999")
+    });
+    $('#txtNomeCartao').keydown(function Onlychars(e) {
+        var tecla = new Number();
+        if (window.event) {
+            tecla = e.keyCode;
+        }
+        else if (e.which) {
+            tecla = e.which;
+        }
+        else {
+            return true;
+        }
+        if ((tecla >= "48") && (tecla <= "57")) {
+            return false;
+        }
+    });
+    $('#txtNomeDestinatario').keydown(function Onlychars(e) {
+        var tecla = new Number();
+        if (window.event) {
+            tecla = e.keyCode;
+        }
+        else if (e.which) {
+            tecla = e.which;
+        }
+        else {
+            return true;
+        }
+        if ((tecla >= "48") && (tecla <= "57")) {
+            return false;
+        }
+    });
+    $('#txtCidade').keydown(function Onlychars(e) {
+        var tecla = new Number();
+        if (window.event) {
+            tecla = e.keyCode;
+        }
+        else if (e.which) {
+            tecla = e.which;
+        }
+        else {
+            return true;
+        }
+        if ((tecla >= "48") && (tecla <= "57")) {
+            return false;
+        }
+    });
+    $('#txtBairro').keydown(function Onlychars(e) {
+        var tecla = new Number();
+        if (window.event) {
+            tecla = e.keyCode;
+        }
+        else if (e.which) {
+            tecla = e.which;
+        }
+        else {
+            return true;
+        }
+        if ((tecla >= "48") && (tecla <= "57")) {
+            return false;
+        }
+    });
+    $('#txtUf').keydown(function Onlychars(e) {
+        var tecla = new Number();
+        if (window.event) {
+            tecla = e.keyCode;
+        }
+        else if (e.which) {
+            tecla = e.which;
+        }
+        else {
+            return true;
+        }
+        if ((tecla >= "48") && (tecla <= "57")) {
+            return false;
+        }
+    });
+    $('#txtNumeroResidencial').keypress(function (event) {
+        return event.charCode >= 48 && event.charCode <= 57
+    });
+    $('#txtCidadeCobranca').keydown(function Onlychars(e) {
+        var tecla = new Number();
+        if (window.event) {
+            tecla = e.keyCode;
+        }
+        else if (e.which) {
+            tecla = e.which;
+        }
+        else {
+            return true;
+        }
+        if ((tecla >= "48") && (tecla <= "57")) {
+            return false;
+        }
+    });
+    $('#txtBairroCobranca').keydown(function Onlychars(e) {
+        var tecla = new Number();
+        if (window.event) {
+            tecla = e.keyCode;
+        }
+        else if (e.which) {
+            tecla = e.which;
+        }
+        else {
+            return true;
+        }
+        if ((tecla >= "48") && (tecla <= "57")) {
+            return false;
+        }
+    });
+    $('#txtUfCobranca').keydown(function Onlychars(e) {
+        var tecla = new Number();
+        if (window.event) {
+            tecla = e.keyCode;
+        }
+        else if (e.which) {
+            tecla = e.which;
+        }
+        else {
+            return true;
+        }
+        if ((tecla >= "48") && (tecla <= "57")) {
+            return false;
+        }
+    });
+    $('#txtNumeroResidencialCobranca').keypress(function (event) {
+        return event.charCode >= 48 && event.charCode <= 57
+    });
+    $('#numCartao').keypress(function (event) {
+        return event.charCode >= 48 && event.charCode <= 57
+    });
+    $('#txtCvv').keypress(function (event) {
+        return event.charCode >= 48 && event.charCode <= 57
+    });
+    $('#txtDddCobranca').keypress(function (event) {
+        return event.charCode >= 48 && event.charCode <= 57
+    });
+    $('#txtDdd').keypress(function (event) {
+        return event.charCode >= 48 && event.charCode <= 57
+    });
+
+
+    ///Funções
+    function LimparFormEntrega() {
+        $('#txtNomeDestinatario').val("");
+        $('#txtDdd').val("");
+        $('#txtCelular').val("");
+        $('#txtLogradouro').val("");
+        $('#txtBairro').val("");
+        $('#txtNumeroResidencial').val("");
+        $('#txtPontoDeReferencia').val("");
+        $('#txtComplemento').val("");
+        $('#txtUf').val("");
+        $('#txtCidade').val("");
+        $('#txtCep').val("");
+    };
+    function LimparFormCobranca() {
+        $('#txtEmailCobranca').val("");
+        $('#txtCelularCobranca').val("");
+        $('#txtDddCobranca').val("");
+        $('#txtDataNascimentoCobranca').val("");
+        $('#txtCepCobranca').val("");
+        $('#txtLogradouroCobranca').val("");
+        $('#txtNumeroResidencialCobranca').val("");
+        $('#txtBairroCobranca').val("");
+        $('#txtCidadeCobranca').val("");
+        $('#txtUfCobranca').val("");
+        $('#ErroCepCobranca').hide();
+        $('#ErroCalcFreteCobranca').hide();
+        $('#ErroFormFreteCobranca').hide();
+    }
+    function LimparFormCartao() {
+        $('#numCartao').val("");
+        $('#txtCvv').val("");
+        $('#txtNomeCartao').val("");
+        $('#selectAnoValidade').val($("#selectAnoValidade option:first").val());
+        $('#selectMesValidade').val($("#selectMesValidade option:first").val());
+        $('#txtCpfTitular').val("");
+        $('#selectParcelamento ').val($("#selectParcelamento option:first").val());
+        $('#ErroVerifCartao').hide();
+    }
+    function EsconderFormCobranca() {
+        $('#boxFormularioDadosDaCobranca').hide();
+    }
+    function EsconderFormCartao() {
+        $('#FormularioDadosDoCartao').hide();
+    }
+    function EsconderFigCartao() {
+        $('#CartaoVerificado').hide();
+        $('#boxBandeira').empty();
+        $('#txtEnderecoCobrancaDefinicoes').empty();
+        $('#txtEnderecoEntregaDefinicoes').empty();
+    }
+    //Recuperar parcelas
+    function recupParcelas(Bandeira) {
+        if (parseFloat(SomaTotal) > 0 && parseFloat(SomaTotal) <= 19.99) {
+            installmentLimit = parseInt("1");
+        }
+        else {
+            if (parseFloat(SomaTotal) > 19.99 && parseFloat(SomaTotal) <= 39.99) {
+                installmentLimit = parseInt("2");
+            }
+            else {
+                if (parseFloat(SomaTotal) > 39.99 && parseFloat(SomaTotal) <= 69.99) {
+                    installmentLimit = parseInt("3");
+                }
+                else {
+                    if (parseFloat(SomaTotal) > 69.99 && parseFloat(SomaTotal) <= 109.99) {
+                        installmentLimit = parseInt("4");
+                    }
+                    else {
+                        if (parseFloat(SomaTotal) > 109.99 && parseFloat(SomaTotal) <= 149.99) {
+                            installmentLimit = parseInt("5");
+                        }
+                        else {
+                            if (parseFloat(SomaTotal) > 149.99 && parseFloat(SomaTotal) <= 199.99) {
+                                installmentLimit = parseInt("6");
+                            }
+                            else {
+                                if (parseFloat(SomaTotal) > 199.99 && parseFloat(SomaTotal) <= 249.99) {
+                                    installmentLimit = parseInt("7");
+                                }
+                                else {
+                                    if (parseFloat(SomaTotal) > 249.99 && parseFloat(SomaTotal) <= 309.99) {
+                                        installmentLimit = parseInt("8");
+                                    }
+                                    else {
+                                        if (parseFloat(SomaTotal) > 309.99 && parseFloat(SomaTotal) <= 389.99) {
+                                            installmentLimit = parseInt("9");
+                                        }
+                                        else {
+                                            if (parseFloat(SomaTotal) > 389.99 && parseFloat(SomaTotal) <= 449.99) {
+                                                installmentLimit = parseInt("10");
+                                            }
+                                            else {
+                                                if (parseFloat(SomaTotal) > 449.99 && parseFloat(SomaTotal) <= 549.99) {
+                                                    installmentLimit = parseInt("11");
+                                                }
+                                                else {
+                                                    if (parseFloat(SomaTotal) > 549.99) {
+                                                        installmentLimit = parseInt("12");
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        PagSeguroDirectPayment.getInstallments({
+            amount: SomaTotal.replace(",", "."),
+            maxInstallmentNoInterest: 2,
+            brand: cardBand,
+            success: function (response) {
+                $.each(response.installments, function (ia, obja) {
+
+                    $(obja).slice(0, installmentLimit).each(function (ib, objb) {
+                        var valorParcelas = objb.installmentAmount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+                        $('#selectParcelamento').show().append("<option value='" + objb.quantity + "' data-parcelas='" + objb.installmentAmount+"'>" + objb.quantity + "x de " + valorParcelas + "</option>")
+                    });
+                });
+            },
+            error: function (response) {
+            },
+            complete: function (response) {
+                // Callback para todas chamadas.
+            }
+        });
+    }
+</script>

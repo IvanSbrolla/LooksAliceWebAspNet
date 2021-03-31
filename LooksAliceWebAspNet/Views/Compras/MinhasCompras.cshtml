@@ -1,0 +1,98 @@
+﻿@model LooksAliceWebAspNet.Models.ViewModels.MinhasComprasViewModel
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    ViewBag.Title = "Minhas Compras - LooksAlice";
+}
+
+<div class="boxFundoGAcc">
+    <div class="boxMC">
+        <div class="boxTituloGAcc">
+            <h2 class="textTituloPageAccount">MINHAS COMPRAS</h2>
+        </div>
+        <!--Titulo LooksAlice-->
+        <div class="boxTextLooksAliceAccountPage">
+            <h3 class="fonteLA LooksAliceProduto">LOOKS ALICE</h3>
+        </div>
+        <!--Divisor-->
+        <hr class="divisorLogin" />
+
+
+
+        @if (ViewData["ContagemDeComprasUsuario"].ToString() != "0")
+        {
+            <table class="table table-bordered table-striped" style="width:100%; margin-top:30px">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            @Html.DisplayName("DATA")
+                        </th>
+                        <th>
+                            @Html.DisplayName("METODO")
+                        </th>
+                        <th>
+                            @Html.DisplayName("PREÇO")
+                        </th>
+                        <th>
+                            @Html.DisplayName("DETALHES")
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var itemCompra in Model.Compras)
+                    {
+                        <tr>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => itemCompra.Data)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => itemCompra.Forma_Pagamento)
+                            </td>
+                            <td>
+                                @itemCompra.Preco.ToString("F2")
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Detalhes","MinhasCompras",new {@IdCompra = itemCompra.CompraId })">Detalhes</a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+            <div class="boxPaginacaoProduto">
+                <p class="textPaginacao"> Página @Model.Compras.PageNumber de @Model.Compras.PageCount</p>
+                <div class="paginacao">
+                    @Html.PagedListPager(Model.Compras, page => Url.Action("Index", "Carrinhos", new { pagina = page }))
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="boxCarrinhoVazio">
+                <h3 class="text-center">
+                    SEU CARRINHO ESTÁ VAZIO
+                </h3>
+                <div class="boxTextoCarrinhoVazio">
+                    <p class="textoCarrinhoVazio text-center">
+                        Para inserir produtos em seu carrinho, basta navegar pela Loja Virtual Looks Alice, e ao encontrar os produtos desejados, clique no botão "Adicionar ao Carrinho"
+                    </p>
+                </div>
+                <div class="boxBtnCarrinhoVazio">
+                    <a class="btnCarrinhoVazio" href="@Url.Action("Roupas","Home")">CONTINUAR NAVEGANDO</a>
+                </div>
+                <hr class="divisorDeInfos" />
+            </div>
+
+            <div class="boxCardProdutoFundo">
+                @Html.Partial("_PartialProdutosMaisVendidos", Model)
+            </div>
+        }
+
+    </div>
+</div>
+
+

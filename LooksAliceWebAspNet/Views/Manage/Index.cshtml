@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "Perfil - LooksAlice";
+}
+@model LooksAliceWebAspNet.Models.IndexViewModel
+<!--Fundo rosa-->
+<div class="boxFundoGAcc">
+    <!--box beje-->
+    <div class="boxGAcc">
+        <!--Titulo Gerenciar-->
+        <div class="boxTituloGAcc">
+            <h2 class="textTituloPageAccount">GERENCIAR</h2>
+        </div>
+        <!--Titulo LooksAlice-->
+        <div class="boxTextLooksAliceAccountPage">
+            <h3 class="fonteLA LooksAliceProduto">LOOKS ALICE</h3>
+        </div>
+        <!--Divisor-->
+        <hr class="divisorLogin" />
+        <p class="text-success">@ViewBag.StatusMessage</p>
+        <!--Box Subtitulo Perfil-->
+        <div class="boxSubTituloGAcc">
+            <!--Subtitulo Enderecos-->
+            <h3 class="subTitulosGAcc">
+                PERFIL:
+            </h3>
+        </div>
+        <!--sub Box Perfil-->
+        <div class="boxPerfilGAcc">
+            <div class="boxPerfilInfosGAcc">
+                <!--box's subtitulos Nome-->
+                <div class="boxSubTituloPerfilGAcc">
+                    <!--subtitulo Nome-->
+                    <h5 class="subTituloPerfilGAcc">
+                        NOME:
+                    </h5>
+                    <!--result subtitulo Telefone-->
+                    <h6 class="resultSubTituloGAcc">
+                        @Model.ApplicationUser.PrimeiroNome
+                        @Model.ApplicationUser.Sobrenome
+                    </h6>
+                </div>
+                <!--box subtitulo Telefone-->
+                <div class="boxSubTituloPerfilGAcc">
+                    <!--subtitulo Telefone-->
+                    <h5 class="subTituloPerfilGAcc">
+                        TELEFONE:
+                    </h5>
+                    <!--result subtitulo Telefone-->
+                    <h6 class="resultSubTituloGAcc">
+                        @Model.ApplicationUser.Telefone
+                    </h6>
+                </div>
+            </div>
+            <div class="boxPerfilInfosGAcc">
+                <!--box subtitulo Email-->
+                <div class="boxSubTituloPerfilGAcc">
+                    <!--subtitulo Email-->
+                    <h5 class="subTituloPerfilGAcc">
+                        EMAIL:
+                    </h5>
+                    <!--result subtitulo Telefone-->
+                    <h6 class="resultSubTituloGAcc">
+                        @Model.ApplicationUser.UserName
+                    </h6>
+                </div>
+                <div class="boxLinksPerfilGAcc">
+                    <a class="linkGAcc noWrapText" href="@Url.Action("Index","Compras")">Minhas Compras</a>
+                </div>
+            </div>
+        </div>
+
+        <!--Box SubTitulo SEGURANÇA-->
+        <div class="boxSubTituloGAcc">
+            <!--SubTitulo Senha-->
+            <h3 class="subTitulosGAcc">
+                SEGURANÇA:
+            </h3>
+        </div>
+        <!--box Actions Senha-->
+        <div class="boxActionsGAcc">
+            <!--Verifica se há senha-->
+            @if (Model.HasPassword)
+            {
+                <!--Action alterar senha-->
+                <a class="textActionsGAcc" href="@Url.Action("ChangePassword","Manage")">Alterar senha</a>
+            }
+            else
+            {
+                <!--Action Criar Senha-->
+                <a class="textActionsGAcc" href="@Url.Action("SetPassword","Manage")">Criar senha</a>
+            }
+        </div>
+    </div>
+</div>

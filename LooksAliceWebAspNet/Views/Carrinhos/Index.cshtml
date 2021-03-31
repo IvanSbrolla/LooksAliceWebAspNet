@@ -1,0 +1,162 @@
+﻿@model LooksAliceWebAspNet.Models.ViewModels.CarrinhoViewModel
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    ViewBag.Title = "Carrinho - LooksAlice";
+}
+
+
+
+<div class="boxFundoPaiCarrinho">
+    <div class="boxFundoCarrinho">
+        <div class="boxTituloPageAccount">
+            <h2 class="textTituloPageAccount">MEU CARRINHO</h2>
+        </div>
+        <div class="boxTextLooksAliceAccountPage">
+            <h3 class="fonteLA LooksAliceProduto">LOOKS ALICE</h3>
+        </div>
+        <hr class="divisorLogin" />
+
+        @if (ViewData["resultContagemProdutos"].ToString() != "0")
+        {
+            <div class="boxTableCarrinho">
+                <table class="table table-bordered table-striped" style="width:100%; margin-top:30px">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>
+                                @Html.DisplayName("Descrição")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Quantidade")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Preço")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Excluir")
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.Pedidos)
+                        {
+
+                            <tr>
+
+                                <td>
+                                    <a href="@Url.Action("Roupa", "Roupas", new { Id = item.Produto.ProdutoId, Descricao = item.Produto.Descricao })">@item.Produto.Descricao</a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Produto_Qntd)
+                                </td>
+                                <td>
+                                    @item.Preco.ToString("F2")
+                                </td>
+                                <td>
+                                    @using (Html.BeginForm("RemoverProduto", "Carrinhos", new { pedidoId = item.IdPedido.ToString() }))
+                                    {
+                                        @Html.AntiForgeryToken();
+                                        <button style="width:100%;height:100%; background:transparent; border:none">X</button>
+                                    }
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+            <div class="boxPaginacaoProduto">
+                <p class="textPaginacao"> Página @Model.Pedidos.PageNumber de @Model.Pedidos.PageCount</p>
+                <div class="paginacao">
+                    @Html.PagedListPager(Model.Pedidos, page => Url.Action("Index", "Carrinhos", new { pagina = page }))
+                </div>
+            </div>
+
+            <hr class="divisorDeInfos" />
+
+            <div id="boxCalcFreteCarrinho" class="boxCalcFreteCarrinho">
+                <label class="labelCalcFrete">Calcular <strong>Frete</strong></label>
+                <div class="boxCalcFreteForms">
+
+                    @Html.TextBoxFor(Model => Model.Correio.CepDestino, new { @class = "txtBoxCep", @placeholder = "Insira seu CEP", @id = "txtCep" })
+
+                    <button id="BtnCalcFrete" class=" BtnCalcFreteCarrinho">
+                        Calcular Frete <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div class="boxReturnCalcFreteCarrinho" id="boxReturnCalcFreteCarrinho">
+                    <div class="returnCalcFrete">
+
+                        <label> <i class="far fa-calendar-alt" style="color:dodgerblue"></i> Prazo: </label>
+                        <label id="CalcFretePrazo"> </label>
+                    </div>
+                    <div class="returnCalcFrete">
+                        <label><i class="fas fa-dollar-sign" style="color:limegreen"></i> Preço: </label>
+                        <label id="CalcFretePreco"> </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="boxBtnCarrinho">
+                <a href="@Url.Action("PaymentMethods","Compras")" id="BtnConcluir" class="btn btn-default btn-success" style="width:150px">
+                    <i class="fas fa-check fa-x1"></i> Concluir
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="boxCarrinhoVazio">
+                <h3 class="text-center">
+                    SEU CARRINHO ESTÁ VAZIO
+                </h3>
+                <div class="boxTextoCarrinhoVazio">
+                    <p class="textoCarrinhoVazio text-center">
+                        Para inserir produtos em seu carrinho, basta navegar pela Loja Virtual Looks Alice, e ao encontrar os produtos desejados, clique no botão "Adicionar ao Carrinho"
+                    </p>
+                </div>
+                <div class="boxBtnCarrinhoVazio">
+                    <a class="btnCarrinhoVazio" href="@Url.Action("Roupas","Home")">CONTINUAR NAVEGANDO</a>
+                </div>
+                <hr class="divisorDeInfos" />
+            </div>
+
+            <div class="boxCardProdutoFundo">
+                @Html.Partial("_PartialProdutosMaisVendidos", Model)
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#txtCep').inputmask("99999-999");
+    });
+
+    $('#BtnCalcFrete').click(function () {
+        $.ajax({
+            url: '@Url.Action("CalcFrete","Carrinhos")',
+            method: 'GET',
+            data: {
+                cep: $('#txtCep').val().replace('-', "")
+            },
+            contentType: 'application/json',
+            success: function (response) {
+                console.log(response)
+                if (response.Result == "sucesso") {
+                    
+                    $('#boxReturnCalcFreteCarrinho').show();
+                    $('#CalcFretePrazo').text(" de " + response.PrazoMin + " a " + response.PrazoMax + " dias para ser entregue.");
+                    $('#CalcFretePreco').text("R$ " + response.Preco)
+                }
+            },
+            error: function (response) {
+                console.log(response)
+            }
+        })
+    })
+</script>
+

@@ -1,0 +1,58 @@
+﻿@model PagedList.IPagedList<LooksAliceWebAspNet.Models.Produtos>
+@using PagedList.Mvc;
+@using PagedList;
+
+@foreach (var item in Model)
+{
+
+
+    <div class="boxCardProduto">
+        <div class="boxImgCardProduto">
+            <a href="@Url.Action("Roupa","Roupas",new { Id = item.ProdutoId, Descricao = item.Descricao})" class="linkImgProduto">
+                @{
+                    var base64 = Convert.ToBase64String(item.Imagem);
+                    var ImagemSrc = String.Format("data:image/gif;base64,{0}", base64);
+                }
+                <img src='@ImagemSrc' style="height:100%;" class="img-zoom" />
+            </a>
+        </div>
+        <div class="boxInfoCardProduto">
+            <div class="boxNomeCardProduto">
+                <p class="nomeCardProduto">@item.Descricao</p>
+
+            </div>
+            <hr class="divisorCardProduto" />
+            <div class="boxPreco_BtnCardProduto">
+                @if (item.Promocao == true)
+                {
+                    <div class="boxPrecoCardProduto">
+
+                        <p class="precoPromocaoCardProduto">R$<s>@item.Preco.ToString("F2")</s></p>
+
+                        <p class="precoCardProduto"><strong>R$ @item.Preco_Promocao.ToString("F2")</strong></p>
+                    </div>
+                    <div class="boxBtnCardProduto">
+                        <a href="@Url.Action("Roupa","Roupas",new { id = item.ProdutoId, Descricao = item.Descricao })" class="btnCardProduto"><strong>DETALHES</strong></a>
+                    </div>
+                }
+                else
+                {
+                    <div class="boxPrecoCardProduto" style="margin-top:15px">
+
+                        <p class="precoCardProduto"><strong>R$ @item.Preco.ToString("F2")</strong></p>
+                    </div>
+                    <div class="boxBtnCardProduto" style="margin-top:5px">
+                        <a href="@Url.Action("Roupa","Roupas",new { id = item.ProdutoId, Descricao = item.Descricao })" class="btnCardProduto"><strong>DETALHES</strong></a>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+    </div>
+
+
+}
+
+
+

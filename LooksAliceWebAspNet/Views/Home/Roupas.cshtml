@@ -1,0 +1,19 @@
+﻿@model PagedList.IPagedList<LooksAliceWebAspNet.Models.Produtos>
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    ViewBag.Title = "Roupas - LooksAlice";
+}
+
+
+
+<div class="boxCardProdutoFundo">
+    @Html.Partial("_PartialProduto")
+    <hr class="divisorDeInfos" />
+    <div class="boxPaginacaoProduto">
+        <p class="textPaginacao"> Página @Model.PageNumber de @Model.PageCount</p>
+        <div class="paginacao">
+            @Html.PagedListPager(Model, page => Url.Action("Roupas", "Home", new { pagina = page }))
+        </div>
+    </div>
+</div>

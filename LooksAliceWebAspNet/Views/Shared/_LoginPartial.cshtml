@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right nav-item navStyle" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <a class="nav-link navAccountItems" href="@Url.Action("Index", "Manage", new { title = "Manage" })"><i class="fas fa-user fa-1x"></i>Perfil</a>
+            </li>
+            <li class="nav-item">
+                <a href="@Url.Action("Index","Carrinhos")" class="nav-link navAccountItems"><i class="fas fa-shopping-cart"></i>Carrinho</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link navAccountItems" href="javascript:document.getElementById('logoutForm').submit()"><i class="fas fa-sign-out-alt fa-1x"></i>Sair</a>
+            </li>
+        </ul>
+    }
+}
+else
+{
+
+    <ul class="nav justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link navAccountItems" href="@Url.Action("Register", "Account")">Registrar</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link navAccountItems" href="@Url.Action("Login","Account")">
+                <i class="fas fa-sign-in-alt fa-1x"></i>
+                Entrar
+            </a>
+        </li>
+    </ul>
+}

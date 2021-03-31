@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Sucesso! - LooksAlice";
+}
+<div class="boxFundoPagamento">
+    <div class="boxFundoCarrinho">
+        <div>
+            <div class="boxTituloGAcc">
+                <h2 class="textTituloPageAccount text-center">COMPRA REALIZADA COM SUCESSO!</h2>
+            </div>
+            <!--Titulo LooksAlice-->
+            <div class="boxTextLooksAliceAccountPage">
+                <h3 class="fonteLA LooksAliceProduto">LOOKS ALICE</h3>
+            </div>
+            <!--Divisor-->
+            <hr class="divisorLogin" />
+            <div class="boxCompraRealizada">
+                <h2 class="text-center textQuicksand">FIQUE DE OLHO!</h2>
+                <h5 class="text-center textQuicksand">Estamos esperando a transação ser aceita pela instituição financeira responsável pelo seu cartão!</h5>
+                <h5 class="text-center textQuicksand">Você pode verificar o <strong>Status de Pagamento</strong> entrando em seu Perfil de Usuário! Ou clicando <a href="@Url.Action("Index","Compras")">Aqui!</a> </h5>
+                <a href="@Url.Action("Index","Home")" style="margin-top:15px" class="textQuicksand btnCarrinhoVazio">Voltar ao início</a>
+            </div>
+        </div>
+    </div>
+</div>

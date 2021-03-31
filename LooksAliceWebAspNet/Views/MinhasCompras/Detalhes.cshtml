@@ -1,0 +1,81 @@
+﻿@model  LooksAliceWebAspNet.Models.ViewModels.DetalhesViewModel
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    ViewBag.Title = "Detalhes - LooksAlice";
+}
+<div class="boxFundoGAcc">
+    <div class="boxMC">
+        <div class="boxTituloGAcc">
+            <h2 class="textTituloPageAccount">DETALHES DO PEDIDO</h2>
+        </div>
+        <!--Titulo LooksAlice-->
+        <div class="boxTextLooksAliceAccountPage">
+            <h3 class="fonteLA LooksAliceProduto">LOOKS ALICE</h3>
+        </div>
+        <!--Divisor-->
+        <hr class="divisorLogin" />
+        <h6>Número da compra: @ViewData["IdCompra"].ToString()</h6>
+        <table class="table table-bordered table-striped" style="width:100%; margin-top:15px">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        @Html.DisplayName("ID")
+                    </th>
+                    <th>
+                        @Html.DisplayName("PRODUTO")
+                    </th>
+                    <th>
+                        @Html.DisplayName("COR")
+                    </th>
+                    <th>
+                        @Html.DisplayName("QUANTIDADE")
+                    </th>
+                    <th>
+                        @Html.DisplayName("PREÇO")
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var itemPedido in Model.Compras_Pedidos)
+                {
+
+
+
+                    <tr>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => itemPedido.Pedidos.ProdutoId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => itemPedido.Pedidos.Produto.Descricao)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => itemPedido.Pedidos.Produto.Cor.Cor_Nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => itemPedido.Pedidos.Produto_Qntd)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => itemPedido.Pedidos.Preco)
+                        </td>
+                    </tr>
+                }
+
+
+            </tbody>
+
+        </table>
+        <div class="boxPaginacaoProduto">
+            <p class="textPaginacao"> Página @Model.Compras_Pedidos.PageNumber de @Model.Compras_Pedidos.PageCount</p>
+            <div class="paginacao">
+                @Html.PagedListPager(Model.Compras_Pedidos, page => Url.Action("Index", "Carrinhos", new { pagina = page }))
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
